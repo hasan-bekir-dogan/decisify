@@ -1,0 +1,31 @@
+cat > .gitignore << 'EOF'
+# macOS
+.DS_Store
+
+# Claude Code local settings
+.claude/
+
+# Java / Gradle
+**/build/
+**/.gradle/
+**/*.class
+
+# Python
+**/__pycache__/
+**/*.pyc
+**/.venv/
+**/venv/
+
+# Node / React
+**/node_modules/
+**/dist/
+
+# Env files
+.env
+!.env.example
+
+# IDE
+.idea/
+*.iml
+.vscode/
+EOF

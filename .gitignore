@@ -1,31 +1,49 @@
-cat > .gitignore << 'EOF'
-# macOS
-.DS_Store
+# Environment variables / secrets
+.env
+.env.*
+!.env.example
 
-# Claude Code local settings
-.claude/
-
-# Java / Gradle
-**/build/
-**/.gradle/
-**/*.class
+# Java / Spring Boot
+target/
+build/
+.gradle/
+*.class
+*.jar
+*.war
 
 # Python
-**/__pycache__/
-**/*.pyc
-**/.venv/
-**/venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+env/
 
 # Node / React
-**/node_modules/
-**/dist/
-
-# Env files
-.env
-!.env.example
+node_modules/
+dist/
+build/
+coverage/
+.vite/
 
 # IDE
 .idea/
-*.iml
 .vscode/
-EOF
+*.iml
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Logs
+*.log
+logs/
+
+# Test / coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Temporary files
+*.tmp
+*.swp

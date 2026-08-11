@@ -1,0 +1,3 @@
+CREATE DATABASE auth_db;
+CREATE DATABASE decision_db;
+CREATE DATABASE document_db;

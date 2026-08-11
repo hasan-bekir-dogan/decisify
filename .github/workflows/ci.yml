@@ -1,0 +1,55 @@
+name: CI
+
+on:
+  pull_request:
+    branches:
+      - main
+  
+  push:
+    branches:
+      - main
+
+jobs: 
+  java-build:
+    name: Java Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Placeholder Java build
+        run: echo "Java build will be configured when Spring Boot services are initialized."
+  
+  python-build:
+    name: Python Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Placeholder Python build
+        run: echo "Python build will be configured when FastAPI services are initialized."
+  
+  frontend-check:
+    name: Frontend Check
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Placeholder Frontend check
+        run: echo "Frontend checks will be configured when the React application is initialized."
+  
+  docker-build:
+    name: Docker Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Placeholder Docker build
+        run: echo "Docker builds will be configured when service Dockerfiles are available."

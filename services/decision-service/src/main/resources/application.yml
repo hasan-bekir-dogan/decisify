@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: decision-service
+
+  datasource:
+    url: jdbc:postgresql://localhost:5433/decision_db
+    username: decisify
+    password: decisify_local
+    driver-class-name: org.postgresql.Driver
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+    open-in-view: false
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info
+
+server:
+  port: 8082

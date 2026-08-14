@@ -8,7 +8,7 @@ services:
     environment:
       POSTGRES_USER: ${POSTGRES_USER:-decisify}
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-decisify_local}
-      POSTGRES_DB: ${POSTGRES_DB:-postgres}
+      POSTGRES_DB: ${POSTGRES_DB:-decisify}
     ports:
       - "5433:5432"
     volumes:
@@ -17,7 +17,7 @@ services:
     networks:
       - decisify-network
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-decisify} -d ${POSTGRES_DB:-postgres}"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER:-decisify} -d ${POSTGRES_DB:-decisify}"]
       interval: 10s
       timeout: 5s
       retries: 5

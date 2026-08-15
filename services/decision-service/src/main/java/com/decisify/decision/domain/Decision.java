@@ -36,11 +36,11 @@ public class Decision {
     @Column(name = "updated_at", nullable = false)
     private OffsetDateTime updatedAt;
 
-    public Decision() {
+    protected Decision() {
 
     }
 
-    public Decision(
+    private Decision(
         UUID id, 
         UUID userId, 
         String title, 
@@ -74,7 +74,7 @@ public class Decision {
         return description;
     }
 
-    public DecisionStatus getDecisionStatus() {
+    public DecisionStatus getStatus() {
         return status;
     }
 
@@ -84,5 +84,32 @@ public class Decision {
 
     public OffsetDateTime getUpdatedAt() {
         return updatedAt;
+    }
+
+    public static Decision create(
+        UUID userId,
+        String title,
+        String description
+    ) {
+        OffsetDateTime now = OffsetDateTime.now();
+
+        return new Decision(
+            UUID.randomUUID(), 
+            userId, 
+            title, 
+            description, 
+            DecisionStatus.DRAFT, 
+            now,
+            now
+        );
+    }
+
+    public void update(
+        String title,
+        String description
+    ) {
+        this.title = title;
+        this.description = description;
+        this.updatedAt = OffsetDateTime.now();
     }
 }

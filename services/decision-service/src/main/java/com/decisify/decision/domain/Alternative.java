@@ -23,11 +23,11 @@ public class Alternative {
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    public Alternative() {
+    protected Alternative() {
 
     }
 
-    public Alternative(
+    private Alternative(
         UUID id,
         UUID decisionId,
         String name,
@@ -39,7 +39,7 @@ public class Alternative {
         this.description = description;
     }
 
-    public UUID getID() {
+    public UUID getId() {
         return id;
     }
 
@@ -53,5 +53,18 @@ public class Alternative {
 
     public String getDescription() {
         return description;
+    }
+
+    public static Alternative create(
+        UUID decisionId,
+        String name,
+        String description
+    ) {
+        return new Alternative(
+            UUID.randomUUID(), 
+            decisionId, 
+            name, 
+            description
+        );
     }
 }

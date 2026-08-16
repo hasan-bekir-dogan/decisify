@@ -1,13 +1,9 @@
 package com.decisify.decision.service;
 
-import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
-
 import org.springframework.stereotype.Service;
-
 import com.decisify.decision.domain.Decision;
-import com.decisify.decision.domain.DecisionStatus;
 import com.decisify.decision.dto.DecisionCreateRequest;
 import com.decisify.decision.dto.DecisionResponse;
 import com.decisify.decision.dto.DecisionUpdateRequest;
@@ -56,6 +52,7 @@ public class DecisionServiceImpl implements DecisionService{
         return toResponse(decision);
     }
 
+    @Override
     public List<DecisionResponse> getAll() {
         return decisionRepository.findAll()
             .stream()

@@ -29,11 +29,11 @@ public class Criterion {
     @Column(name = "higher_is_better", nullable = false)
     private Boolean higherIsBetter;
 
-    public Criterion() {
+    protected Criterion() {
 
     }
 
-    public Criterion(
+    private Criterion(
         UUID id,
         UUID decisionId,
         String name,
@@ -71,5 +71,22 @@ public class Criterion {
 
     public Boolean getHigherIsBetter() {
         return higherIsBetter;
+    }
+
+    public static Criterion create(
+        UUID decisionId,
+        String name,
+        Float weight,
+        String unit,
+        Boolean higherIsBetter
+    ) {
+        return new Criterion(
+            UUID.randomUUID(), 
+            decisionId, 
+            name, 
+            weight, 
+            unit, 
+            higherIsBetter
+        );
     }
 }

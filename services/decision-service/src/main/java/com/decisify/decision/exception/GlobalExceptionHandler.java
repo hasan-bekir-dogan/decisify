@@ -53,4 +53,29 @@ public class GlobalExceptionHandler {
                                 "message", exception.getMessage())
                         );
         }
+
+        @ExceptionHandler(CriterionNotFoundException.class)
+        public ResponseEntity<Map<String, String>> handleCriterionNotFound(
+                CriterionNotFoundException exception
+        ) {
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of(
+                                "error", "Criterion not found",
+                                "message", exception.getMessage()
+                        ));
+        }
+        
+        @ExceptionHandler(InvalidCriterionWeightException.class)
+        public ResponseEntity<Map<String, Object>> handleInvalidCriterionWeight(
+                InvalidCriterionWeightException exception
+        ) {
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(Map.of(
+                        "status", 400,
+                        "error", "Invalid criterion weight",
+                        "message", exception.getMessage()
+                ));
+        }
 }

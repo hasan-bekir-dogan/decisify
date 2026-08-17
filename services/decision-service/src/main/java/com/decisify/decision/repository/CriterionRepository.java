@@ -1,11 +1,14 @@
 package com.decisify.decision.repository;
 
-import java.util.UUID;
-
+import com.decisify.decision.domain.Criterion;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.decisify.decision.domain.Criterion;
+import java.util.List;
+import java.util.UUID;
 
-public interface CriterionRepository extends JpaRepository<Criterion, UUID>{
-    
+public interface CriterionRepository extends JpaRepository<Criterion, UUID> {
+
+    List<Criterion> findByDecisionId(UUID decisionId);
+
+    long countByDecisionId(UUID decisionId);
 }

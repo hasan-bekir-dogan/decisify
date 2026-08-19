@@ -10,7 +10,7 @@ import jakarta.persistence.UniqueConstraint;
 
 @Entity
 @Table(
-    name = "criterion_value",
+    name = "criterion_values",
     uniqueConstraints = {
         @UniqueConstraint(
             name = "uq_criterion_values_alternative_criterion",
@@ -43,11 +43,11 @@ public class CriterionValue {
 
     private Float confidence;
 
-    public CriterionValue() {
+    protected CriterionValue() {
 
     }
 
-    public CriterionValue(
+    private CriterionValue(
         UUID id,
         UUID alternativeId,
         UUID criterionId,
@@ -81,11 +81,43 @@ public class CriterionValue {
         return rawValue;
     }
 
+    public Float getNormalizedValue() {
+        return normalizedValue;
+    }
+
     public String getSource() {
         return source;
     }
 
     public Float getConfidence() {
         return confidence;
+    }
+
+    public static CriterionValue create(
+        UUID alternativeId,
+        UUID criterionId,
+        Float rawValue,
+        String source,
+        Float confidence
+    ) {
+        return new CriterionValue(
+            UUID.randomUUID(),
+            alternativeId, 
+            criterionId, 
+            rawValue, 
+            null, 
+            source, 
+            confidence
+        );
+    }
+
+    public void updateRawValue(
+        Float rawValue,
+        String source,
+        Float confidence
+    ) {
+        this.rawValue = rawValue;
+        this.source = source;
+        this.confidence = confidence;
     }
 }

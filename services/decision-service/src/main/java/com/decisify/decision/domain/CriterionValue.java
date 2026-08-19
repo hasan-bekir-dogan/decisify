@@ -120,4 +120,8 @@ public class CriterionValue {
         this.source = source;
         this.confidence = confidence;
     }
+
+    public void updateNormalizedValue(Float normalizedValue) {
+        this.normalizedValue = normalizedValue;
+    }
 }

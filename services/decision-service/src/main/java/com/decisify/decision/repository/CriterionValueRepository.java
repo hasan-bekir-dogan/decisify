@@ -16,4 +16,6 @@ public interface CriterionValueRepository extends JpaRepository<CriterionValue, 
     );
 
     List<CriterionValue> findByCriterionId(UUID criterionId);
+
+    List<CriterionValue> findByAlternativeId(UUID alternativeId);
 }

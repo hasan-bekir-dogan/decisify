@@ -9,6 +9,7 @@ import com.decisify.decision.domain.Criterion;
 import com.decisify.decision.dto.CriterionResponse;
 import com.decisify.decision.exception.CriterionNotFoundException;
 import com.decisify.decision.exception.DecisionNotFoundException;
+import com.decisify.decision.exception.DuplicateCriterionException;
 import com.decisify.decision.exception.InvalidCriterionWeightException;
 import com.decisify.decision.repository.CriterionRepository;
 import com.decisify.decision.repository.DecisionRepository;
@@ -37,6 +38,12 @@ public class CriterionServiceImpl implements CriterionService{
     ) {
         if(!decisionRepository.existsById(decisionId))
             throw new DecisionNotFoundException(decisionId);
+        
+        if (!decisionRepository.existsById(decisionId))
+            throw new DecisionNotFoundException(decisionId);
+
+        if (criterionRepository.existsByDecisionIdAndNameIgnoreCase(decisionId, name))
+            throw new DuplicateCriterionException(decisionId, name);
 
         float currentTotalWeight = criterionRepository.findByDecisionId(decisionId)
             .stream()

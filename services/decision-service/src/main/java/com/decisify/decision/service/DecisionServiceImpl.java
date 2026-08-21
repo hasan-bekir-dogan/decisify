@@ -18,6 +18,7 @@ import com.decisify.decision.dto.DecisionUpdateRequest;
 import com.decisify.decision.dto.RankedAlternativeResponse;
 import com.decisify.decision.dto.RecommendationResponse;
 import com.decisify.decision.exception.DecisionNotFoundException;
+import com.decisify.decision.exception.InvalidDecisionStateException;
 import com.decisify.decision.exception.RecommendationNotFoundException;
 import com.decisify.decision.repository.AlternativeRepository;
 import com.decisify.decision.repository.CriterionRepository;
@@ -104,6 +105,21 @@ public class DecisionServiceImpl implements DecisionService{
         // Ensure the decision exists before starting the calculation.
         decisionRepository.findById(decisionId)
                 .orElseThrow(() -> new DecisionNotFoundException(decisionId));
+
+        long alternativeCount = alternativeRepository.countByDecisionId(decisionId);
+        long criterionCount = criterionRepository.countByDecisionId(decisionId);
+
+        if (alternativeCount < 2) {
+            throw new InvalidDecisionStateException(
+                "A decision requires at least 2 alternatives before calculation."
+            );
+        }
+
+        if (criterionCount < 1) {
+            throw new InvalidDecisionStateException(
+                "A decision requires at least 1 criterion before calculation."
+            );
+        }
 
         // Normalize every criterion belonging to this decision.
         List<Criterion> criteria =

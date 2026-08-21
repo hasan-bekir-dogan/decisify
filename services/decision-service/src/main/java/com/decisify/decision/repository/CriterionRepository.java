@@ -11,4 +11,6 @@ public interface CriterionRepository extends JpaRepository<Criterion, UUID> {
     List<Criterion> findByDecisionId(UUID decisionId);
 
     long countByDecisionId(UUID decisionId);
+
+    boolean existsByDecisionIdAndNameIgnoreCase(UUID decisionId, String name);
 }

@@ -10,6 +10,7 @@ import com.decisify.decision.dto.AlternativeCreateRequest;
 import com.decisify.decision.dto.AlternativeResponse;
 import com.decisify.decision.exception.AlternativeNotFoundException;
 import com.decisify.decision.exception.DecisionNotFoundException;
+import com.decisify.decision.exception.DuplicateAlternativeException;
 import com.decisify.decision.repository.AlternativeRepository;
 import com.decisify.decision.repository.DecisionRepository;
 
@@ -34,6 +35,16 @@ public class AlternativeServiceImpl implements AlternativeService {
     ) {
         if (!decisionRepository.existsById(decisionId))
             throw new DecisionNotFoundException(decisionId);
+
+        if (alternativeRepository.existsByDecisionIdAndNameIgnoreCase(
+            decisionId,
+            request.name()
+        )) {
+            throw new DuplicateAlternativeException(
+                decisionId,
+                request.name()
+            );
+        }
 
         Alternative alternative = Alternative.create(
             decisionId,

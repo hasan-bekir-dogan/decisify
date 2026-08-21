@@ -7,6 +7,7 @@ import com.decisify.decision.dto.DecisionCalculationResponse;
 import com.decisify.decision.dto.DecisionCreateRequest;
 import com.decisify.decision.dto.DecisionResponse;
 import com.decisify.decision.dto.DecisionUpdateRequest;
+import com.decisify.decision.dto.RecommendationResponse;
 
 public interface DecisionService {
     DecisionResponse create(DecisionCreateRequest request);
@@ -20,4 +21,6 @@ public interface DecisionService {
     void delete(UUID id);
 
     DecisionCalculationResponse calculate(UUID decisionId);
+
+    RecommendationResponse getRecommendation(UUID decisionId);
 }

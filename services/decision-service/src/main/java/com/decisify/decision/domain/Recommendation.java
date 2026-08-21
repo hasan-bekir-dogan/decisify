@@ -58,7 +58,7 @@ public class Recommendation {
         return decisionId;
     }
 
-    public UUID getSelectedAkternativeId() {
+    public UUID getSelectedAlternativeId() {
         return selectedAlternativeId;
     }
 

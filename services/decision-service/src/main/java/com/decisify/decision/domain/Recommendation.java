@@ -30,11 +30,11 @@ public class Recommendation {
     @Column(name = "created_at", nullable = false)
     private OffsetDateTime createdAt;
 
-    public Recommendation() {
+    protected Recommendation() {
 
     }
 
-    public Recommendation(
+    private Recommendation(
         UUID id,
         UUID decisionId,
         UUID selectedAlternativeId,
@@ -72,5 +72,21 @@ public class Recommendation {
 
     public OffsetDateTime getCreatedAt() {
         return createdAt;
+    }
+
+    public static Recommendation create(
+        UUID decisionId,
+        UUID selectedAlternativeId,
+        Float finalScore,
+        String explanation
+    ) {
+        return new Recommendation(
+                UUID.randomUUID(),
+                decisionId,
+                selectedAlternativeId,
+                finalScore,
+                explanation,
+                OffsetDateTime.now()
+        );
     }
 }

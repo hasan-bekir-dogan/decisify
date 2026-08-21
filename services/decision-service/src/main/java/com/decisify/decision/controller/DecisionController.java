@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.decisify.decision.dto.DecisionCalculationResponse;
 import com.decisify.decision.dto.DecisionCreateRequest;
 import com.decisify.decision.dto.DecisionResponse;
 import com.decisify.decision.dto.DecisionUpdateRequest;
@@ -57,6 +58,12 @@ public class DecisionController {
     @GetMapping
     public List<DecisionResponse> getAll() {
         return decisionService.getAll();
+    }
+
+    @PostMapping("/{id}/calculate")
+    public DecisionCalculationResponse calculate(
+            @PathVariable UUID id) {
+        return decisionService.calculate(id);
     }
 
     @DeleteMapping("/{id}")

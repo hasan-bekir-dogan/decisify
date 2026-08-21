@@ -70,12 +70,21 @@ public class GlobalExceptionHandler {
         public ResponseEntity<Map<String, Object>> handleInvalidCriterionWeight(
                 InvalidCriterionWeightException exception
         ) {
-        return ResponseEntity
-                .status(HttpStatus.BAD_REQUEST)
-                .body(Map.of(
-                        "status", 400,
-                        "error", "Invalid criterion weight",
-                        "message", exception.getMessage()
-                ));
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of(
+                                "status", 400,
+                                "error", "Invalid criterion weight",
+                                "message", exception.getMessage()
+                        ));
+        }
+        
+        @ExceptionHandler(RecommendationNotFoundException.class)
+        public ResponseEntity<?> handleRecommendationNotFound(
+                RecommendationNotFoundException ex
+        ) {
+                return ResponseEntity
+                        .status(HttpStatus.NOT_FOUND)
+                        .body(Map.of("message", ex.getMessage()));
         }
 }

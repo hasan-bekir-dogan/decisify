@@ -16,7 +16,9 @@ import com.decisify.decision.dto.DecisionCreateRequest;
 import com.decisify.decision.dto.DecisionResponse;
 import com.decisify.decision.dto.DecisionUpdateRequest;
 import com.decisify.decision.dto.RankedAlternativeResponse;
+import com.decisify.decision.dto.RecommendationResponse;
 import com.decisify.decision.exception.DecisionNotFoundException;
+import com.decisify.decision.exception.RecommendationNotFoundException;
 import com.decisify.decision.repository.AlternativeRepository;
 import com.decisify.decision.repository.CriterionRepository;
 import com.decisify.decision.repository.DecisionRepository;
@@ -170,6 +172,26 @@ public class DecisionServiceImpl implements DecisionService{
         return new DecisionCalculationResponse(
                 decisionId,
                 rankedWithPositions
+        );
+    }
+
+    @Override
+    public RecommendationResponse getRecommendation(UUID decisionId) {
+
+        // Ensure the decision exists.
+        getDecisionById(decisionId);
+
+        Recommendation recommendation = recommendationRepository
+                .findTopByDecisionIdOrderByCreatedAtDesc(decisionId)
+                .orElseThrow(() -> new RecommendationNotFoundException(decisionId));
+
+        return new RecommendationResponse(
+                recommendation.getId(),
+                recommendation.getDecisionId(),
+                recommendation.getSelectedAlternativeId(),
+                recommendation.getFinalScore(),
+                recommendation.getExplanation(),
+                recommendation.getCreatedAt()
         );
     }
 

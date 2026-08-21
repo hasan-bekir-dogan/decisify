@@ -18,6 +18,7 @@ import com.decisify.decision.dto.DecisionCalculationResponse;
 import com.decisify.decision.dto.DecisionCreateRequest;
 import com.decisify.decision.dto.DecisionResponse;
 import com.decisify.decision.dto.DecisionUpdateRequest;
+import com.decisify.decision.dto.RecommendationResponse;
 import com.decisify.decision.service.DecisionService;
 
 import jakarta.validation.Valid;
@@ -72,5 +73,12 @@ public class DecisionController {
         decisionService.delete(id);
 
         return ResponseEntity.noContent().build();
+    }
+
+    @GetMapping("/{id}/recommendation")
+    public RecommendationResponse getRecommendation(
+        @PathVariable UUID id
+    ) {
+        return decisionService.getRecommendation(id);
     }
 }

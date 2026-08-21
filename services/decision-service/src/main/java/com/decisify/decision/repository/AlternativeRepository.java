@@ -11,4 +11,6 @@ public interface AlternativeRepository extends JpaRepository<Alternative, UUID>{
     List<Alternative> findByDecisionId(UUID decisionId);
 
     long countByDecisionId(UUID decisionId);
+
+    boolean existsByDecisionIdAndNameIgnoreCase(UUID decisionId, String name);
 }

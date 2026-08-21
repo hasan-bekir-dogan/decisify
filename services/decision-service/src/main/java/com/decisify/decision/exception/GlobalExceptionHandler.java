@@ -87,4 +87,43 @@ public class GlobalExceptionHandler {
                         .status(HttpStatus.NOT_FOUND)
                         .body(Map.of("message", ex.getMessage()));
         }
+
+        @ExceptionHandler(InvalidDecisionStateException.class)
+        public ResponseEntity<Map<String, Object>> handleInvalidDecisionState(
+                InvalidDecisionStateException exception
+        ) {
+                return ResponseEntity
+                        .status(HttpStatus.BAD_REQUEST)
+                        .body(Map.of(
+                                "status", 400,
+                                "error", "Invalid decision state",
+                                "message", exception.getMessage()
+                        ));
+        }
+
+        @ExceptionHandler(DuplicateCriterionException.class)
+        public ResponseEntity<Map<String, Object>> handleDuplicateCriterion(
+                DuplicateCriterionException exception
+        ) {
+                return ResponseEntity
+                        .status(HttpStatus.CONFLICT)
+                        .body(Map.of(
+                                "status", 409,
+                                "error", "Duplicate criterion",
+                                "message", exception.getMessage()
+                        ));
+        }
+
+        @ExceptionHandler(DuplicateAlternativeException.class)
+        public ResponseEntity<Map<String, Object>> handleDuplicateAlternative(
+                DuplicateAlternativeException exception
+        ) {
+                return ResponseEntity
+                        .status(HttpStatus.CONFLICT)
+                        .body(Map.of(
+                                "status", 409,
+                                "error", "Duplicate alternative",
+                                "message", exception.getMessage()
+                        ));
+        }
 }

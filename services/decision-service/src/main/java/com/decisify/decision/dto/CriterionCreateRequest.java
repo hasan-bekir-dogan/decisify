@@ -17,7 +17,7 @@ public record CriterionCreateRequest(
     @NotBlank
     String unit,
 
-    @NotBlank
+    @NotNull
     Boolean higherIsBetter
 ) {
     

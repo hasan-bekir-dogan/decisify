@@ -9,7 +9,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.decisify.auth.dto.LoginRequest;
 import com.decisify.auth.dto.LoginResponse;
+import com.decisify.auth.dto.RefreshTokenRequest;
+import com.decisify.auth.dto.RefreshTokenResponse;
 import com.decisify.auth.exception.InvalidCredentialsException;
+import com.decisify.auth.exception.InvalidRefreshTokenException;
 import com.decisify.auth.security.JwtService;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -73,6 +76,23 @@ public class AuthServiceImpl implements AuthService {
         return new LoginResponse(
                 accessToken,
                 refreshToken,
+                "Bearer"
+        );
+    }
+
+    @Override
+    public RefreshTokenResponse refresh(RefreshTokenRequest request) {
+        UUID userId = jwtService.validateRefreshTokenAndGetUserId(
+                request.refreshToken()
+        );
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(InvalidRefreshTokenException::new);
+
+        String accessToken = jwtService.generateAccessToken(user);
+
+        return new RefreshTokenResponse(
+                accessToken,
                 "Bearer"
         );
     }

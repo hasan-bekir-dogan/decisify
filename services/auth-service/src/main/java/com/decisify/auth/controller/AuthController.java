@@ -2,6 +2,8 @@ package com.decisify.auth.controller;
 
 import com.decisify.auth.dto.LoginRequest;
 import com.decisify.auth.dto.LoginResponse;
+import com.decisify.auth.dto.RefreshTokenRequest;
+import com.decisify.auth.dto.RefreshTokenResponse;
 import com.decisify.auth.dto.RegisterRequest;
 import com.decisify.auth.dto.RegisterResponse;
 import com.decisify.auth.service.AuthService;
@@ -36,6 +38,15 @@ public class AuthController {
             @Valid @RequestBody LoginRequest request
     ) {
         LoginResponse response = authService.login(request);
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/refresh")
+    public ResponseEntity<RefreshTokenResponse> refresh(
+            @Valid @RequestBody RefreshTokenRequest request
+    ) {
+        RefreshTokenResponse response = authService.refresh(request);
 
         return ResponseEntity.ok(response);
     }

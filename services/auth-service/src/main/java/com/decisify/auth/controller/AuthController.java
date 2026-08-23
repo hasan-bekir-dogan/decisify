@@ -6,8 +6,11 @@ import com.decisify.auth.dto.RefreshTokenRequest;
 import com.decisify.auth.dto.RefreshTokenResponse;
 import com.decisify.auth.dto.RegisterRequest;
 import com.decisify.auth.dto.RegisterResponse;
+import com.decisify.auth.dto.UserProfileResponse;
 import com.decisify.auth.service.AuthService;
 import jakarta.validation.Valid;
+import org.springframework.security.core.Authentication;
+import java.util.UUID;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,5 +52,14 @@ public class AuthController {
         RefreshTokenResponse response = authService.refresh(request);
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping("/me")
+    public ResponseEntity<UserProfileResponse> me(Authentication authentication) {
+        UUID userId = UUID.fromString(authentication.getName());
+
+        return ResponseEntity.ok(
+                authService.getCurrentUser(userId)
+        );
     }
 }

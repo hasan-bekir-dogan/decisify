@@ -3,6 +3,7 @@ package com.decisify.auth.service;
 import com.decisify.auth.domain.User;
 import com.decisify.auth.dto.RegisterRequest;
 import com.decisify.auth.dto.RegisterResponse;
+import com.decisify.auth.dto.UserProfileResponse;
 import com.decisify.auth.exception.EmailAlreadyExistsException;
 import com.decisify.auth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -13,6 +14,7 @@ import com.decisify.auth.dto.RefreshTokenRequest;
 import com.decisify.auth.dto.RefreshTokenResponse;
 import com.decisify.auth.exception.InvalidCredentialsException;
 import com.decisify.auth.exception.InvalidRefreshTokenException;
+import com.decisify.auth.exception.UserNotFoundException;
 import com.decisify.auth.security.JwtService;
 import java.time.OffsetDateTime;
 import java.util.UUID;
@@ -94,6 +96,19 @@ public class AuthServiceImpl implements AuthService {
         return new RefreshTokenResponse(
                 accessToken,
                 "Bearer"
+        );
+    }
+
+    @Override
+    public UserProfileResponse getCurrentUser(UUID userId) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new UserNotFoundException(userId));
+
+        return new UserProfileResponse(
+                user.getId(),
+                user.getEmail(),
+                user.getFullName(),
+                user.getCreatedAt()
         );
     }
 }

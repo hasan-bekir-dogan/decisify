@@ -1,5 +1,7 @@
 package com.decisify.auth.controller;
 
+import com.decisify.auth.dto.LoginRequest;
+import com.decisify.auth.dto.LoginResponse;
 import com.decisify.auth.dto.RegisterRequest;
 import com.decisify.auth.dto.RegisterResponse;
 import com.decisify.auth.service.AuthService;
@@ -27,5 +29,14 @@ public class AuthController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<LoginResponse> login(
+            @Valid @RequestBody LoginRequest request
+    ) {
+        LoginResponse response = authService.login(request);
+
+        return ResponseEntity.ok(response);
     }
 }

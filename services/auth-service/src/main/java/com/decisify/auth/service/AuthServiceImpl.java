@@ -7,7 +7,10 @@ import com.decisify.auth.exception.EmailAlreadyExistsException;
 import com.decisify.auth.repository.UserRepository;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-
+import com.decisify.auth.dto.LoginRequest;
+import com.decisify.auth.dto.LoginResponse;
+import com.decisify.auth.exception.InvalidCredentialsException;
+import com.decisify.auth.security.JwtService;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 
@@ -16,13 +19,16 @@ public class AuthServiceImpl implements AuthService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtService jwtService;
 
     public AuthServiceImpl(
-            UserRepository userRepository,
-            PasswordEncoder passwordEncoder
+        UserRepository userRepository,
+        PasswordEncoder passwordEncoder,
+        JwtService jwtService
     ) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtService = jwtService;
     }
 
     @Override
@@ -46,6 +52,28 @@ public class AuthServiceImpl implements AuthService {
                 savedUser.getEmail(),
                 savedUser.getFullName(),
                 savedUser.getCreatedAt()
+        );
+    }
+
+    @Override
+    public LoginResponse login(LoginRequest request) {
+        User user = userRepository.findByEmail(request.email())
+                .orElseThrow(InvalidCredentialsException::new);
+
+        if (!passwordEncoder.matches(
+                request.password(),
+                user.getPasswordHash()
+        )) {
+            throw new InvalidCredentialsException();
+        }
+
+        String accessToken = jwtService.generateAccessToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
+        return new LoginResponse(
+                accessToken,
+                refreshToken,
+                "Bearer"
         );
     }
 }

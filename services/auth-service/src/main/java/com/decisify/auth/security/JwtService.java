@@ -1,6 +1,7 @@
 package com.decisify.auth.security;
 
 import com.decisify.auth.domain.User;
+import com.decisify.auth.exception.InvalidAccessTokenException;
 import com.decisify.auth.exception.InvalidRefreshTokenException;
 
 import io.jsonwebtoken.Claims;
@@ -79,6 +80,27 @@ public class JwtService {
 
         } catch (JwtException | IllegalArgumentException exception) {
             throw new InvalidRefreshTokenException();
+        }
+    }
+
+    public UUID validateAccessTokenAndGetUserId(String token) {
+        try {
+            Claims claims = Jwts.parser()
+                    .verifyWith(signingKey)
+                    .build()
+                    .parseSignedClaims(token)
+                    .getPayload();
+
+            String tokenType = claims.get("type", String.class);
+
+            if (!"access".equals(tokenType)) {
+                throw new JwtException("Invalid token type");
+            }
+
+            return UUID.fromString(claims.getSubject());
+
+        } catch (JwtException | IllegalArgumentException exception) {
+            throw new InvalidAccessTokenException();
         }
     }
 }

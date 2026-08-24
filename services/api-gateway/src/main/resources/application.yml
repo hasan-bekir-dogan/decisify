@@ -20,6 +20,12 @@ spring:
                 - Path=/api/decisions/**
               filters:
                 - StripPrefix=1
+                - name: RequestRateLimiter
+                  args:
+                    key-resolver: "#{@userKeyResolver}"
+                    redis-rate-limiter.replenishRate: 5
+                    redis-rate-limiter.burstCapacity: 10
+                    redis-rate-limiter.requestedTokens: 1
 
             - id: document-service
               uri: ${DOCUMENT_SERVICE_URL:http://localhost:8083}
@@ -62,6 +68,11 @@ spring:
                   - Location
                 allowCredentials: true
                 maxAge: 3600
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
 security:
   jwt:
     secret: ${JWT_SECRET:12345678901234567890123456789012}

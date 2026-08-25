@@ -1,3 +1,4 @@
+import { tokenStorage } from './tokenStorage'
 const API_BASE_URL = import.meta.env.VITE_API_BASE_URL ?? '/api'
 
 export class ApiError extends Error {
@@ -13,8 +14,7 @@ async function request(path, options = {}) {
     const {
         method = 'GET',
         body,
-        headers,
-        token,
+        headers = {},
         ...rest
     } = options
 
@@ -26,13 +26,15 @@ async function request(path, options = {}) {
     if(body != undefined)
         requestHeaders['Content-Type'] = 'application/json'
 
-    if(token)
-        requestHeaders.Autharization = `Bearer ${token}`
+    const accessToken = tokenStorage.getAccessToken()
+
+    if(accessToken)
+        requestHeaders.Authorization = `Bearer ${accessToken}`
 
     const response = await fetch(`${API_BASE_URL}${path}`, {
         method,
         headers: requestHeaders,
-        body: body !== undefined ? JSON.stringfy(body): undefined,
+        body: body !== undefined ? JSON.stringify(body) : undefined,
         ...rest,
     })
 

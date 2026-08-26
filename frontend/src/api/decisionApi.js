@@ -80,6 +80,13 @@ export const decisionApi = {
     )
   },
 
+  getCriterionValues(decisionId, options = {}) {
+    return apiClient.get(
+      `/decisions/${decisionId}/values`,
+      options,
+    )
+  },
+
   createCriterionValue(decisionId, value, options = {}) {
     return apiClient.post(
       `/decisions/${decisionId}/values`,

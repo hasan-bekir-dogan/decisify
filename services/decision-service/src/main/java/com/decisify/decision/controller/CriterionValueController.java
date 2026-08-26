@@ -6,7 +6,7 @@ import com.decisify.decision.service.CriterionValueService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -34,5 +34,12 @@ public class CriterionValueController {
         );
 
         return ResponseEntity.ok(response);
+    }
+
+    @GetMapping
+    public List<CriterionValueResponse> getAll(
+        @PathVariable UUID decisionId
+    ) {
+        return criterionValueService.getByDecisionId(decisionId);
     }
 }

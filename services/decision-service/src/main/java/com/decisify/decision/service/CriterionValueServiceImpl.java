@@ -1,5 +1,6 @@
 package com.decisify.decision.service;
 
+import java.util.List;
 import java.util.UUID;
 import org.springframework.stereotype.Service;
 import com.decisify.decision.domain.Alternative;
@@ -88,6 +89,24 @@ public class CriterionValueServiceImpl implements CriterionValueService{
                 criterionValueRepository.save(criterionValue);
 
         return toResponse(savedValue);
+    }
+
+    @Override
+    public List<CriterionValueResponse> getByDecisionId(UUID decisionId) {
+        if (!decisionRepository.existsById(decisionId)) {
+            throw new DecisionNotFoundException(decisionId);
+        }
+
+        return criterionRepository.findByDecisionId(decisionId)
+            .stream()
+            .flatMap(
+                criterion ->
+                    criterionValueRepository
+                        .findByCriterionId(criterion.getId())
+                        .stream()
+            )
+            .map(this::toResponse)
+            .toList();
     }
 
     private CriterionValueResponse toResponse(CriterionValue criterionValue) {

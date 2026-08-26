@@ -90,6 +90,19 @@ services:
       - chroma_data:/data
     networks:
       - decisify-network
+  
+  frontend:
+    build:
+      context: ..
+      dockerfile: frontend/Dockerfile
+    container_name: decisify-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    networks:
+      - decisify-network
 
 volumes:
   postgres_data:
